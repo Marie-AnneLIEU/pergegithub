@@ -1,13 +1,6 @@
-#' conclusion table
-#'@import lubridate
-#' @param list.data A list of data
-#' @param num_chambre A number.
-#' @param seuil_data A list of data
-#' @param k_pas A number.
-#' @param s A number.
-#' @param seuil_stat A number
-#' @return a list of objects.
-#' @examples
+#' @inherit detect_anoma_chambre
+#' @description version pour l'application Shiny
+#' @export
 
 
 

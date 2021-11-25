@@ -1,4 +1,6 @@
-# functions
+#' @title importer les fichiers
+#' @param inputfiles fichiers importés par fileInput
+#' @export
 import.multiple.files<-function(inputfiles,...)
 {
   require(stringr)
@@ -43,6 +45,16 @@ import.multiple.files<-function(inputfiles,...)
 
 
 # graphic func
+#' @title Tracer un graphe plotly pour toutes les chambres/zones à chauffer
+#' @param data jeu de données
+#' @param coefc1 coefficient à multiplier aux données du circulateur 1
+#' @param coefc2 coefficient à multiplier aux données du circulateur 2
+#' @param coefc3 coefficient à multiplier aux données du circulateur 3
+#' @param brul coefficient à multiplier aux données du brûleur
+#' @param pac coefficient à multiplier aux données de la PAC
+#' @param pecs coefficient à multiplier aux données de la pompe ECS
+#' @param vecs coefficient à multiplier aux données de la vanne de zone ECS
+#' @export
 
 makegraph <- function(data,coefc1,coefc2,coefc3,brul,pac,pecs,vecs){
   if(class(data$heure[1])=="character"){
@@ -93,6 +105,20 @@ makegraph <- function(data,coefc1,coefc2,coefc3,brul,pac,pecs,vecs){
 #   )
 # }
 
+# graphic func
+#' @title Tracer un graphe plotly pour une chambre/zone à chauffer donnée
+#' @param list_res sortie de la fonction \code{detect_anoma_chambre}/\code{detect_anoma_chambre_sy}/\code{detect_anoma_chambre_optipellet}
+#' @param coefc1 coefficient à multiplier aux données du circulateur 1
+#' @param coefc2 coefficient à multiplier aux données du circulateur 2
+#' @param coefc3 coefficient à multiplier aux données du circulateur 3
+#' @param brul coefficient à multiplier aux données du brûleur
+#' @param pac coefficient à multiplier aux données de la PAC
+#' @param pecs coefficient à multiplier aux données de la pompe ECS
+#' @param vecs coefficient à multiplier aux données de la vanne de zone ECS
+#' @param ind numéro du jeu de données dans la liste des jeux de données \code{list.data}
+#' @param chambre numéro de la chambre/zone à chauffer
+#' @export
+
 makegraphchambre <- function(list_res,chambre,coefc1,coefc2,coefc3,brul,pac,pecs,vecs,ind){
   data <- list_res[[chambre]]$list_data[[ind]]
   coef <- c(coefc1,coefc2,coefc3)[chambre]
@@ -108,7 +134,7 @@ makegraphchambre <- function(list_res,chambre,coefc1,coefc2,coefc3,brul,pac,pecs
   f <- f %>% add_trace(y=~pac*data$S_PAC,mode="lines",name="PAC")
   f <- f %>% add_trace(y=~pecs*data$S_PCECS,mode="lines",name="Pompe de charge ECS")
   f <- f %>% add_trace(y=~vecs*data$S_VZECS,mode="lines",name="Vanne de zone ecs")
-  f <- f %>% add_trace(y=~data$data_smooth,mode="lines",name=paste("T°ambiance",chambre,"liss°e",sep = " "))
+  f <- f %>% add_trace(y=~data$data_smooth,mode="lines",name=paste("T°ambiance",chambre,"lissée",sep = " "))
   f <- f %>% add_trace(y=~data$ext_smooth,mode="lines",name="T°extérieure lissée")
   f <- f %>% add_trace(y=~as.numeric(data[[paste0("E_SAMB",chambre)]]),mode ="lines",name=paste("T°ambiance",chambre,sep = " "))
   f <- f %>% add_trace(y=~as.numeric(data$E_SDEP),mode ="lines",name = "T°depart")
@@ -124,6 +150,10 @@ makegraphchambre <- function(list_res,chambre,coefc1,coefc2,coefc3,brul,pac,pecs
   return(f)
 }
 
+#' @title Tracer le graphe selon le choix de l'utilisateur
+#' @inherit makegraph
+#' @inherit makegraphchambre
+#' @export
 showgraph <- function(fig,list_res,val,ind){
   if (val == 0){
     makegraph(fig$list.data[[ind]],fig$coefc1,fig$coefc2,fig$coefc3,fig$brul,
@@ -136,7 +166,9 @@ showgraph <- function(fig,list_res,val,ind){
 
 
 # graphic func
-
+#' @inherit makegraph
+#' @description  Tracer le graphe des données, version pour les optipellets
+#' @export
 makegraph_optipellet <- function(data,coefc1,coefc2,coefc3,pecs,vecs){
   if(class(data$heure[1])=="character"){
     x_heure <- dmy_hms(paste(data$date[1],data$heure,sep = " "))}
@@ -172,6 +204,9 @@ makegraph_optipellet <- function(data,coefc1,coefc2,coefc3,pecs,vecs){
   return(f)
 }
 
+#' @inherit makegraphchambre
+#' @description  Tracer le graphe des données, version pour les optipellets
+#' @export
 makegraphchambre_optipellet <- function(list_res,chambre,coefc1,coefc2,coefc3,pecs,vecs,ind){
   data <- list_res[[chambre]]$list_data[[ind]]
   coef <- c(coefc1,coefc2,coefc3)[chambre]
@@ -203,6 +238,9 @@ makegraphchambre_optipellet <- function(list_res,chambre,coefc1,coefc2,coefc3,pe
   return(f)
 }
 
+#' @inherit showgraph
+#' @description \code{showgraph} version optipellet
+#' @export
 showgraph_optipellet <- function(fig,list_res,val,ind){
   if (val == 0){
     makegraph_optipellet(fig$list.data[[ind]],fig$coefc1,fig$coefc2,fig$coefc3,fig$pecs,fig$vecs)}

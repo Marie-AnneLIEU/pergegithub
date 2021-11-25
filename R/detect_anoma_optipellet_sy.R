@@ -1,23 +1,5 @@
-#' @title Fonction qui donne des conclusions de l'analyse (version optipellet)
-#' @import lubridate
-#' @usage detect_anoma_chambre_optipellet(list.data,num_chambre,seuil_data,k_pas,s,seuil_delete,seuil_cut,seuil_stat,t_eau_maxi)
-#' @param list.data liste de jeux de données à analyser
-#' @param num_chambre numéro de la chambre/zone à chauffer à analyser
-#' @param seuil_data nombre de points sur lesquels on fait une régression, 12 par défault
-#' @param k_pas nombre de points par déplacement, 6 par défault
-#' @param s seuil de variation significative, 0.0065 par défault
-#' @param seuil_stat seuil de variation significative, 5e-5 par défault
-#' @param seuil_cut seuil de l'écart de temps entre 2 dernières données consécutives d'une période, pour un écart > ce seuil, soit on supprime la période, soit on enlève la dernière donnée.
-#' @param seuil_delete nombre entier, période dont le nombre de données est inférieur à ce seuil sera supprimée
-#' @param t_eau_maxi valeur maximale de la loi d'eau
-#' @return une liste d'objets:
-#' \code{list.data} liste de jeux de données après traitements
-#' \code{tab_res} tableau de conclusions
-#' \code{tab_ad} tableau de conclusions avec colonnes non renommées
-#' \code{missing_column} liste de jeux de données avec les colonnes manquantes
-#' \code{na_col_names} liste de jeux de données dont le nombre de lignes = 0 après la suppression des NAs
-#' \code{deleted_room_names} liste de jeux de données dont la chambre/zone à chauffer numéro num_chambre n'est pas déclarée
-#' \code{deleted_period_names} liste de jeux de données dont aucune période de fonctionnement est détectée
+#' @inherit detect_anoma_chambre_optipellet
+#' @description version pour l'application Shiny
 #' @export
 
 
