@@ -55,7 +55,7 @@ graphe_optipellet <- function(list.data,mypath){
   require(stringr)
   for (k in 1:length(list.data)){
     period <- rep(0,length(list.data[[k]]$V_DEBUG_AUTOMATE_GR_BRULEUR))
-    period[which(list.data[[k]]$V_DEBUG_AUTOMATE_GR_BRULEUR %in% 7:17)] <- 1
+    period[which(list.data[[k]]$V_DEBUG_AUTOMATE_GR_BRULEUR %in% 11:17)] <- 1
     fig <- plot_ly(x=~list.data[[k]]$heure)
     fig <- fig %>% add_trace(y=~12*list.data[[k]]$S_PCHA1,mode="lines",name="Circulateur 1")
     fig <- fig %>% add_trace(y=~10*list.data[[k]]$S_PCHA2,mode="lines",name="Circulateur 2")
