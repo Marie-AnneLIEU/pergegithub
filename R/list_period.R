@@ -68,7 +68,7 @@ list.period.optipellet <- function(list.data,num_chambre){
 
     #column indicating if the condition where PAC/bru & circulateur work is satisfied
     cond <- rep(0,length(data$heure))
-    ind <- which((data$V_DEBUG_AUTOMATE_GR_BRULEUR %in% 11:17) & data[[paste0("S_PCHA",num_chambre)]]==1 )
+    ind <- which((data$V_DEBUG_AUTOMATE_GR_BRULEUR %in% 11:15) & data[[paste0("S_PCHA",num_chambre)]]==1 )
     cond[ind] <- 1
     if(!is.null(data$S_VZECS)){cond[data$S_VZECS==1]<-0}
     if(!is.null(data$S_PCECS)){cond[data$S_PCECS==1]<-0}

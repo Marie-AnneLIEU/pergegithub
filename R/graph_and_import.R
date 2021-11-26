@@ -179,7 +179,7 @@ makegraph_optipellet <- function(data,coefc1,coefc2,coefc3,pecs,vecs){
     x_heure <- ymd_hms(h2)
   }
   period <- rep(0,length(data$V_DEBUG_AUTOMATE_GR_BRULEUR))
-  period[which(data$V_DEBUG_AUTOMATE_GR_BRULEUR %in% 11:17)] <- 1
+  period[which(data$V_DEBUG_AUTOMATE_GR_BRULEUR %in% 11:15)] <- 1
   f <- plot_ly(x=~x_heure)
   f <- f %>% add_trace(y=~coefc1*data$S_PCHA1,mode="lines",name="Circulateur 1")
   f <- f %>% add_trace(y=~coefc2*data$S_PCHA2,mode="lines",name="Circulateur 2")
@@ -218,7 +218,7 @@ makegraphchambre_optipellet <- function(list_res,chambre,coefc1,coefc2,coefc3,pe
   #   vlist[[j]] <- vline(x = seg[j])
   # }}
   period <- rep(0,length(data$V_DEBUG_AUTOMATE_GR_BRULEUR))
-  period[which(data$V_DEBUG_AUTOMATE_GR_BRULEUR %in% 11:17)] <- 1
+  period[which(data$V_DEBUG_AUTOMATE_GR_BRULEUR %in% 11:15)] <- 1
   f <- f %>% add_trace(y=~coef*data[[paste0("S_PCHA",chambre)]],mode="lines",name=paste("Circulateur",chambre,sep = " "))
   f <- f %>% add_trace(y=~pecs*data$S_PCECS,mode="lines",name="Pompe de charge ECS")
   f <- f %>% add_trace(y=~vecs*data$S_VZECS,mode="lines",name="Vanne de zone ecs")
