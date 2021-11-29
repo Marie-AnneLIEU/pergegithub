@@ -37,7 +37,7 @@ graphe <- function(list.data,mypath){
     fig <- fig %>% add_trace(y=~as.numeric(list.data[[k]]$E_SEXT),mode ="lines",name="T°exterieur")
     # fig <- fig %>% add_trace(y=~as.numeric(list.data[[k]]$add_smooth),mode ="lines",name="lowess")
     # fig <- fig %>% add_trace(y=~as.numeric(list.data[[k]]$cp_col),mode ="lines",name="coupure par ctn5")
-
+    config(fig,modeBarButtonsToAdd="toggleSpikelines")
     fig
 
     name <- names(list.data)[k]
@@ -77,6 +77,7 @@ graphe_optipellet <- function(list.data,mypath){
     fig <- fig %>% add_trace(y=~14*period,mode="lines",name="Automate GR")
     # fig <- fig %>% add_trace(y=~as.numeric(list.data[[k]]$add_smooth),mode ="lines",name="lowess")
     # fig <- fig %>% add_trace(y=~as.numeric(list.data[[k]]$cp_col),mode ="lines",name="coupure par ctn5")
+    config(fig,modeBarButtonsToAdd="toggleSpikelines")
     fig
 
     name <- names(list.data)[k]

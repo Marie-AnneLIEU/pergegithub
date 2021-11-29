@@ -87,6 +87,7 @@ makegraph <- function(data,coefc1,coefc2,coefc3,brul,pac,pecs,vecs){
   f <- layout(f,title = paste0("Chaudière: ",data$chaudiere[1]," , Date: " ,data$date[1]),
               xaxis = list(title = "Temps"),
               yaxis = list(title = "Température (°C)"))
+  config(f,modeBarButtonsToAdd="toggleSpikelines")
   return(f)
 }
 
@@ -147,6 +148,7 @@ makegraphchambre <- function(list_res,chambre,coefc1,coefc2,coefc3,brul,pac,pecs
   f <- layout(f,title = paste0("Chaudière: ",data$chaudiere[1]," , Date: " ,data$date[1]),
               xaxis = list(title = "Temps"),
               yaxis = list(title = "Température (°C)"))
+  config(f,modeBarButtonsToAdd="toggleSpikelines")
   return(f)
 }
 
@@ -201,6 +203,7 @@ makegraph_optipellet <- function(data,coefc1,coefc2,coefc3,pecs,vecs){
   f <- layout(f,title = paste0("Chaudière: ",data$chaudiere[1]," , Date: " ,data$date[1]),
               xaxis = list(title = "Temps"),
               yaxis = list(title = "Température (°C)"))
+  config(f,modeBarButtonsToAdd="toggleSpikelines")
   return(f)
 }
 
@@ -235,6 +238,7 @@ makegraphchambre_optipellet <- function(list_res,chambre,coefc1,coefc2,coefc3,pe
   f <- layout(f,title = paste0("Chaudière: ",data$chaudiere[1]," , Date: " ,data$date[1]),
               xaxis = list(title = "Temps"),
               yaxis = list(title = "Température (°C)"))
+  config(f,modeBarButtonsToAdd="toggleSpikelines")
   return(f)
 }
 
