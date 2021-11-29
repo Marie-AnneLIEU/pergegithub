@@ -88,7 +88,7 @@ makegraph <- function(data,coefc1,coefc2,coefc3,brul,pac,pecs,vecs){
               xaxis = list(title = "Temps"),
               yaxis = list(title = "Température (°C)"))
   config(f,modeBarButtonsToAdd="toggleSpikelines")
-  return(f)
+  # return(f)
 }
 
 # graphic func chambre
@@ -149,7 +149,7 @@ makegraphchambre <- function(list_res,chambre,coefc1,coefc2,coefc3,brul,pac,pecs
               xaxis = list(title = "Temps"),
               yaxis = list(title = "Température (°C)"))
   config(f,modeBarButtonsToAdd="toggleSpikelines")
-  return(f)
+  # return(f)
 }
 
 #' @title Tracer le graphe selon le choix de l'utilisateur
@@ -204,7 +204,7 @@ makegraph_optipellet <- function(data,coefc1,coefc2,coefc3,pecs,vecs){
               xaxis = list(title = "Temps"),
               yaxis = list(title = "Température (°C)"))
   config(f,modeBarButtonsToAdd="toggleSpikelines")
-  return(f)
+  # return(f)
 }
 
 #' @inherit makegraphchambre
@@ -239,7 +239,7 @@ makegraphchambre_optipellet <- function(list_res,chambre,coefc1,coefc2,coefc3,pe
               xaxis = list(title = "Temps"),
               yaxis = list(title = "Température (°C)"))
   config(f,modeBarButtonsToAdd="toggleSpikelines")
-  return(f)
+  # return(f)
 }
 
 #' @inherit showgraph

@@ -37,14 +37,14 @@ graphe <- function(list.data,mypath){
     fig <- fig %>% add_trace(y=~as.numeric(list.data[[k]]$E_SEXT),mode ="lines",name="T°exterieur")
     # fig <- fig %>% add_trace(y=~as.numeric(list.data[[k]]$add_smooth),mode ="lines",name="lowess")
     # fig <- fig %>% add_trace(y=~as.numeric(list.data[[k]]$cp_col),mode ="lines",name="coupure par ctn5")
-    config(fig,modeBarButtonsToAdd="toggleSpikelines")
-    fig
+    # config(fig,modeBarButtonsToAdd="toggleSpikelines")
+    # fig
 
     name <- names(list.data)[k]
     for (i in c(".csv",".html",".xlsx")){name <- str_remove(name,i)}
     name <- paste0(mypath,name,".html")
 
-    saveWidget(fig, name, selfcontained = F, libdir = "lib")}
+    saveWidget(config(fig,modeBarButtonsToAdd="toggleSpikelines"), name, selfcontained = F, libdir = "lib")}
 }
 
 #' @inherit graphe
@@ -77,13 +77,13 @@ graphe_optipellet <- function(list.data,mypath){
     fig <- fig %>% add_trace(y=~14*period,mode="lines",name="Automate GR")
     # fig <- fig %>% add_trace(y=~as.numeric(list.data[[k]]$add_smooth),mode ="lines",name="lowess")
     # fig <- fig %>% add_trace(y=~as.numeric(list.data[[k]]$cp_col),mode ="lines",name="coupure par ctn5")
-    config(fig,modeBarButtonsToAdd="toggleSpikelines")
-    fig
+    # config(fig,modeBarButtonsToAdd="toggleSpikelines")
+    # fig
 
     name <- names(list.data)[k]
     for (i in c(".csv",".html",".xlsx")){name <- str_remove(name,i)}
     name <- paste0(mypath,name,".html")
 
-    saveWidget(fig, name, selfcontained = F, libdir = "lib")}
+    saveWidget(config(fig,modeBarButtonsToAdd="toggleSpikelines"), name, selfcontained = F, libdir = "lib")}
 }
 
