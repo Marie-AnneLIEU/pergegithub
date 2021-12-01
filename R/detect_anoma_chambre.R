@@ -522,7 +522,7 @@ detect_anoma_chambre <- function(list.data,num_chambre,seuil_data = 12,k_pas = 6
               #                             ,"Conclusion","Pertinence","Bivalence conseillée")
               colnames(tab_res[[i]]) <- c("Période","Segment de départ","date","Heure de début","Heure de fin","Fin de période"
                                           ,"Consigne atteinte","Pompe/Vanne de zone ECS","Ordonnée à l'origine",
-                                          "Variation de T°ambiance dans 1h","Tendance","Loi d'eau atteitne","Brûleur est ON","Coupure par CTN5"
+                                          "Variation de T°ambiance dans 1h","Tendance","Loi d'eau atteinte","Brûleur est ON","Coupure par CTN5"
                                           ,"T°maxi(loi d'eau) atteinte","Conclusion","Pertinence","Bivalence conseillée","T°extérieure")
             }
           }else{tab_res <- NULL

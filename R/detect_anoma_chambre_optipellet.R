@@ -494,7 +494,7 @@ detect_anoma_chambre_optipellet <- function(list.data,num_chambre,seuil_data = 1
               #                             ,"Conclusion","Pertinence","Bivalence conseillée")
               colnames(tab_res[[i]]) <- c("Période","Segment de départ","date","Heure de début","Heure de fin","Fin de période"
                                           ,"Consigne atteinte","Pompe/Vanne de zone ECS","Ordonnée à l'origine",
-                                          "Variation de T°ambiance dans 1h","Tendance","Loi d'eau atteitne"
+                                          "Variation de T°ambiance dans 1h","Tendance","Loi d'eau atteinte"
                                           ,"T°maxi(loi d'eau) atteinte","Conclusion","Pertinence","T°extérieure")
             }
           }else{tab_res <- NULL
