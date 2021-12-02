@@ -1,8 +1,9 @@
 #' @title Fonctions qui extrait la loi d'eau actuelle et retourne une nouvelle loi d'eau
 #' @description \code{extract_t_text} extrait la loi d'eau et les températures de l'extérieur et les C_MAXAMB correspondantes puis corriger la loi d'eau selon les cas, pour le cas "loi d'eau est insuffisante", on additionne un certain nombre de °C à la loi d'eau, pour les autres cas on en soustrait.
 #' @description \code{extract1}, \code{extract2}, \code{extract3} sont les fonctions auxiliaires de \code{extract_t_text}
-#' @description \code{tab_sort} pour un jeu de données, pour une plage de température de l'extérieur, cette fonction extrait les valeurs de la loi d'eau (corrigée, sans compensation de l'ambiance) correspondantes ainsi que les opérations faites sur ces valeurs (addition de combien et/ou soustraction de combien).
-#' @description \code{tab_sort_all} \code{tab_sort} sur toute la liste de jeux de données
+#' @description \code{tab_sort} pour chaque jeu de données, pour une plage de température de l'extérieur, cette fonction extrait les valeurs de la loi d'eau (corrigée, sans compensation de l'ambiance) correspondantes ainsi que les opérations faites sur ces valeurs (addition de combien et/ou soustraction de combien).
+#' @description \code{tab_sort_all} est \code{tab_sort} sur toute la liste de jeux de données
+#' @description \code{tab_sort_all_new} et \code{tab_sort_new} sont \code{tab_sort_all} et \code{tab_sort} mais sa sortie \code{tab_ind} est pour valeur 0 et 1 (1 si loi d'eau insuffisante, 0 sinon)
 #' @description \code{max_narm} fonction \code{max} avec l'argument \code{na.rm} = TRUE
 #' @description \code{mix} mettre en commun les sorties de la fonction \code{tab_sort_all} (cas loi d'eau insuffisante, cas loi d'eau suffisante)
 #' @param list_res sortie de la fonction \code{detect_anoma_chambre}/\code{detect_anoma_chambre_sy}/\code{detect_anoma_chambre_optipellet}
@@ -256,26 +257,26 @@
 extract_t_ext <- function(list_res,seuilcorr=1,non_insuf=FALSE){
   extract_all_cham <- c()
   if(length(list_res)>0){
-  for (i in 1:length(list_res)){
-    if (!is.null(list_res[[i]]$tab_ad)){
-      # res <- extract1(i,list_res,P_SEUIL,P_KCOMP,non_insuf=non_insuf)
-      res <- extract1(i,list_res,non_insuf=non_insuf)
-      if(!is.null(res)){
-        res <- res[!duplicated(res),]
-        if(non_insuf){
-          leaucorr <- res$leau-seuilcorr} #or unchanged, depend
-        else{leaucorr <- res$leau+seuilcorr}
-        extract_all_cham[[i]]<- data.frame(res,leaucorr)
-        for (v in 1:ncol(extract_all_cham[[i]])){
-          extract_all_cham[[i]][,v] <- round(extract_all_cham[[i]][,v],digits = 2)
-        }
-        # colnames(extract_all_cham[[i]]) <- c("T_EXT","LECHA","C_MAXAMB","C_DAMB","C_COMP","LECHA_CORRIGEE")
-        colnames(extract_all_cham[[i]]) <- c("T_EXT","LECHA","C_MAXAMB","LECHA_CORRIGEE")
-        # extract_all_cham[[i]] <- extract_all_cham[[i]][order(extract_all_cham[[i]]$C_COMP),]
-        extract_all_cham[[i]] <- extract_all_cham[[i]][order(extract_all_cham[[i]]$C_MAXAMB),]
-        rownames(extract_all_cham[[i]]) <- NULL}
-      else{extract_all_cham[[i]]<-NA}}
-    else{extract_all_cham[[i]]<- NA}}}
+    for (i in 1:length(list_res)){
+      if (!is.null(list_res[[i]]$tab_ad)){
+        # res <- extract1(i,list_res,P_SEUIL,P_KCOMP,non_insuf=non_insuf)
+        res <- extract1(i,list_res,non_insuf=non_insuf)
+        if(!is.null(res)){
+          res <- res[!duplicated(res),]
+          if(non_insuf){
+            leaucorr <- res$leau-seuilcorr} #or unchanged, depend
+          else{leaucorr <- res$leau+seuilcorr}
+          extract_all_cham[[i]]<- data.frame(res,leaucorr)
+          for (v in 1:ncol(extract_all_cham[[i]])){
+            extract_all_cham[[i]][,v] <- round(extract_all_cham[[i]][,v],digits = 2)
+          }
+          # colnames(extract_all_cham[[i]]) <- c("T_EXT","LECHA","C_MAXAMB","C_DAMB","C_COMP","LECHA_CORRIGEE")
+          colnames(extract_all_cham[[i]]) <- c("T_EXT","LECHA","C_MAXAMB","LECHA_CORRIGEE")
+          # extract_all_cham[[i]] <- extract_all_cham[[i]][order(extract_all_cham[[i]]$C_COMP),]
+          extract_all_cham[[i]] <- extract_all_cham[[i]][order(extract_all_cham[[i]]$C_MAXAMB),]
+          rownames(extract_all_cham[[i]]) <- NULL}
+        else{extract_all_cham[[i]]<-NA}}
+      else{extract_all_cham[[i]]<- NA}}}
   else{for(k in 1:3){extract_all_cham[[k]]<-NA}}
   return(extract_all_cham)
 }
@@ -294,11 +295,11 @@ extract1 <- function(i,list_res,non_insuf){
     }
     extract <- data.frame()
     if(length(extractl)>0){
-    for (p in 1:length(extractl)){
-      if(!is.null(extractl[[p]])){
-        extract <- rbind(extract,extractl[[p]])
-      }
-    }}
+      for (p in 1:length(extractl)){
+        if(!is.null(extractl[[p]])){
+          extract <- rbind(extract,extractl[[p]])
+        }
+      }}
     if(nrow(extract)==0){extract <- NULL}}
   else{extract <- NULL}
   return(extract)
@@ -309,24 +310,24 @@ extract1 <- function(i,list_res,non_insuf){
 # extract2 <- function(j,lres,P_SEUIL,P_KCOMP,non_insuf){
 extract2 <- function(j,lres,non_insuf){
   if(length(lres$list_data)>=j & length(lres$tab_ad)>=j){
-  data <- lres$list_data[[j]]
-  tab_add <- lres$tab_ad[[j]]
-  if(!is.null(data)){
-  if(non_insuf){
-    ind <- which(tab_add$conclusion != "Loi d'eau insuffisante")}
-  else{ind <- which(tab_add$conclusion == "Loi d'eau insuffisante")}
-  if (length(ind)>0){
-    tab1 <- data.frame()
-    for (k in ind){
-      # all <- extract3(k,tab_add,data,P_SEUIL,P_KCOMP)
-      all <- extract3(k,tab_add,data)
-      if(!is.null(all)){
-        tab1 <- rbind(tab1,all)
-      }}
-    if(nrow(tab1)==0){tab1 <- NULL}
-  }
-  else{ tab1 <- NULL}}
-  else{tab1 <- NULL}}
+    data <- lres$list_data[[j]]
+    tab_add <- lres$tab_ad[[j]]
+    if(!is.null(data)){
+      if(non_insuf){
+        ind <- which(tab_add$conclusion != "Loi d'eau insuffisante")}
+      else{ind <- which(tab_add$conclusion == "Loi d'eau insuffisante")}
+      if (length(ind)>0){
+        tab1 <- data.frame()
+        for (k in ind){
+          # all <- extract3(k,tab_add,data,P_SEUIL,P_KCOMP)
+          all <- extract3(k,tab_add,data)
+          if(!is.null(all)){
+            tab1 <- rbind(tab1,all)
+          }}
+        if(nrow(tab1)==0){tab1 <- NULL}
+      }
+      else{ tab1 <- NULL}}
+    else{tab1 <- NULL}}
   else{tab1 <- NULL}
   return(tab1)
 }
@@ -374,12 +375,12 @@ extract3 <- function(k,tab_add,data){
     if(length(cham_non_decla)>0){
       rest <- nomb_cham[nomb_cham %notin% cham_non_decla]
       # if (length(cham_non_decla)>0){
-        ind_del <- c()
-        for(m in rest){
-          ind_del <- c(ind_del,which(data[[paste0("V_DEFAUT_SAMB_",m)]][start:end]>0))
-        }
-        ind_del <- unique(ind_del)
-        if(length(ind_del)>0){
+      ind_del <- c()
+      for(m in rest){
+        ind_del <- c(ind_del,which(data[[paste0("V_DEFAUT_SAMB_",m)]][start:end]>0))
+      }
+      ind_del <- unique(ind_del)
+      if(length(ind_del)>0){
         all <- all[-ind_del,]}
     }
     else{
@@ -389,9 +390,9 @@ extract3 <- function(k,tab_add,data){
       }
       ind_del <- unique(ind_del)
       if(length(ind_del)>0){
-      all <- all[-ind_del,]}
+        all <- all[-ind_del,]}
     }
-  if(nrow(all)==0){ all <- NULL}
+    if(nrow(all)==0){ all <- NULL}
   }
   else{ all <- NULL}
   return(all)
@@ -537,6 +538,53 @@ max_narm <- function(x){
   max(x,na.rm = TRUE)
 }
 
+#' @inherit extract_t_ext
+#' @export
+tab_sort_all_new <- function(data,insuf=TRUE,seuil_text=0.25){
+  tab_sort_all <- c()
+  for(i in 1:length(data)){
+    tab_sort_all[[i]] <- tab_sort_new(data[[i]],insuf = insuf,seuil_text=seuil_text)
+  }
+  return(tab_sort_all)
+}
+
+#' @inherit extract_t_ext
+#' @export
+tab_sort_new <- function(data,insuf=TRUE,seuil_text){
+  plage_text <- seq(-20,25,seuil_text)
+  # plage_cmaxamb <- c(0,seq(1+seuil_cmax,5,seuil_cmax))
+  # tab_text_cmaxamb <- matrix(data = NA,nrow = length(plage_cmaxamb),length(plage_text))
+  tab_text_cmaxamb <- c(0,rep(NA,length(plage_text)))
+  tab_text_cmaxamb <- as.data.frame(t(tab_text_cmaxamb))
+  # tab_text_cmaxamb <- data.frame(plage_cmaxamb,tab_text_cmaxamb)
+  colnames(tab_text_cmaxamb) <- c("C_MAXAMB",plage_text)
+  tab_ind <- tab_text_cmaxamb
+  if(is.data.frame(data)){
+    # for(i in 2:length(plage_cmaxamb)){
+    #   temp1 <- abs(data$C_MAXAMB - plage_cmaxamb[i])
+    #   ind <- which(temp1<seuil_cmax)
+    #   if (length(ind)>0){
+    #     data2 <- data[ind,]
+    #     for(j in 1:length(plage_text)){
+    #       temp2 <- abs(data2$T_EXT - plage_text[j])
+    #       ind2 <- which(temp2 < seuil_text)
+    #       if (length(ind2)>0){
+    #         tab_text_cmaxamb[i,j+1] <- max(data2[ind2,]$LECHA_CORRIGEE)
+    #         tab_ind[i,j] <- ifelse(insuf,seuilcorr,-seuilcorr)
+    #       }}
+    #   }
+    # }
+    ind0 <- which((data$C_MAXAMB<=1) & (data$C_MAXAMB>=-1))
+    if(length(ind0)>0){
+      data2 <- data[ind0,]
+      for(j in 1:length(plage_text)){
+        temp2 <- abs(data2$T_EXT - plage_text[j])
+        ind2 <- which(temp2 < seuil_text)
+        if (length(ind2)>0){
+          tab_text_cmaxamb[1,j+1] <- max(data2[ind2,]$LECHA_CORRIGEE)
+          tab_ind[1,j+1] <- ifelse(insuf,1,0)
+        }}}}
+  return(list(tab_text_cmaxamb=tab_text_cmaxamb,tab_ind=tab_ind))}
 ## mix chambre
 
 # mix_chambre <- function(data_list){
@@ -585,14 +633,14 @@ max_narm <- function(x){
 #' @inherit extract_t_ext
 #' @export
 mix <- function(tab_insuf,tab_non_insuf){
-    temp1 <- rbind(tab_insuf$tab_text_cmaxamb[1,-1],tab_non_insuf$tab_text_cmaxamb[1,-1])
-    temp2 <- rbind(tab_insuf$tab_ind[1,-1],tab_non_insuf$tab_ind[1,-1])
-    new1 <- as.vector(apply(temp1, 2, max_narm))
-    new1[new1==-Inf] <- NA
-    new2 <- as.vector(apply(temp2, 2, max_narm))
-    new2[new2==-Inf] <- NA
-    tab_insuf$tab_text_cmaxamb[1,] <- c(tab_insuf$tab_text_cmaxamb[1,1],new1)
-    tab_insuf$tab_ind[1,] <- c(tab_insuf$tab_ind[1,1],new2)
+  temp1 <- rbind(tab_insuf$tab_text_cmaxamb[1,-1],tab_non_insuf$tab_text_cmaxamb[1,-1])
+  temp2 <- rbind(tab_insuf$tab_ind[1,-1],tab_non_insuf$tab_ind[1,-1])
+  new1 <- as.vector(apply(temp1, 2, max_narm))
+  new1[new1==-Inf] <- NA
+  new2 <- as.vector(apply(temp2, 2, max_narm))
+  new2[new2==-Inf] <- NA
+  tab_insuf$tab_text_cmaxamb[1,] <- c(tab_insuf$tab_text_cmaxamb[1,1],new1)
+  tab_insuf$tab_ind[1,] <- c(tab_insuf$tab_ind[1,1],new2)
   return(list(tab_text_cmaxamb_mix=tab_insuf$tab_text_cmaxamb,tab_ind_mix=tab_insuf$tab_ind))
 }
 
