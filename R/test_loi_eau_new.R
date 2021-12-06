@@ -602,16 +602,18 @@ tab_sort_new <- function(data,insuf=TRUE,seuil_text){
 # }
 
 ### à voir -------
-# mix_chambre <- function(data_list){
-#   list_fin <- c()
-#   for(k in 1:2){
-#       temp1 <- rbind(data_list[[1]][[k]][1,-1],data_list[[2]][[k]][1,-1],data_list[[3]][[k]][1,-1])
-#       new1 <- as.vector(apply(temp1, 2, max_narm))
-#       new1[new1==-Inf] <- NA
-#       data_list[[1]][[k]][1,] <- c(data_list[[1]][[k]][1,1],new1)
-#     list_fin[[k]]<-data_list[[1]][[k]]}
-#   return(list(tab_text_cmaxamb = list_fin[[1]],tab_ind = list_fin[[2]]))
-# }
+#' @inherit extract_t_ext
+#' @export
+mix_chambre <- function(data_list){
+  list_fin <- c()
+  for(k in 1:2){
+      temp1 <- rbind(data_list[[1]][[k]][1,-1],data_list[[2]][[k]][1,-1],data_list[[3]][[k]][1,-1])
+      new1 <- as.vector(apply(temp1, 2, max_narm))
+      new1[new1==-Inf] <- NA
+      data_list[[1]][[k]][1,] <- c(data_list[[1]][[k]][1,1],new1)
+    list_fin[[k]]<-data_list[[1]][[k]]}
+  return(list(tab_text_cmaxamb = list_fin[[1]],tab_ind = list_fin[[2]]))
+}
 
 ## mix gen (fichiers)
 
