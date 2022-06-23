@@ -31,7 +31,7 @@ C_DAMBcal <- function(P_SEUIL,C_MAXAMB){
 
 #' @inherit C_DAMBcal
 #' @export
-calc_loi_eau <- function(data,P_PENTE,P_DECPA,P_TEXTMAX,P_DTCHAUD,P_TMAX,seuil_ecart,P_SEUIL,P_KCOMP){
+calc_loi_eau <- function(data,P_PENTE,P_DECPA,P_TEXTMAX,P_DTCHAUD,P_TMAX,P_SEUIL,P_KCOMP){
   vamb1 <- as.numeric(data$V_AMB1)
   vamb2 <- as.numeric(data$V_AMB2)
   vamb3 <- as.numeric(data$V_AMB3)
@@ -75,7 +75,7 @@ clean_loi_eau <- function(list.data,P_PENTE,P_DECPA,P_TEXTMAX,P_DTCHAUD,P_TMAX,s
   for(i in 1:length(list.data)){
     data <- list.data[[i]]
     C_LECHA <- calc_loi_eau(data,P_PENTE=P_PENTE,P_DECPA=P_DECPA,P_TEXTMAX=P_TEXTMAX,P_DTCHAUD=P_DTCHAUD
-                            ,P_TMAX=P_TMAX,seuil_ecart=seuil_ecart,P_SEUIL=P_SEUIL,P_KCOMP=P_KCOMP)
+                            ,P_TMAX=P_TMAX,P_SEUIL=P_SEUIL,P_KCOMP=P_KCOMP)
     # vamb1 <- as.numeric(data$V_AMB1)
     # vamb2 <- as.numeric(data$V_AMB2)
     # vamb3 <- as.numeric(data$V_AMB3)
