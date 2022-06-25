@@ -11,7 +11,7 @@
 
 
 
-manage_period <- function(list.data,list_period,seuil_delete=5,seuil_cut=21){
+manage_period <- function(list.data,list_period,seuil_delete=2,seuil_cut=21){
   ind_f_rm_l <- c()
   for(i in 1:length(list.data)){
     period <- list_period[[i]]
