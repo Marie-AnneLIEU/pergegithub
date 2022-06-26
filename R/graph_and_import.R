@@ -65,7 +65,18 @@ makegraph <- function(data,coefc1,coefc2,coefc3,brul,pac,pecs,vecs){
     h2 <- paste(d,h)
     x_heure <- ymd_hms(h2)
   }
-  f <- plot_ly(x=~x_heure)
+  f <- plot_ly(x=~x_heure,y = ~as.numeric(data$tunnel_upper1), mode = 'lines', line = list(color = 'transparent')
+               , name = 'Tunnel de satisfaction 1 (haut)')
+  f <- f %>% add_trace(y = ~as.numeric(data$tunnel_lower1), mode = 'lines',
+                       fill = 'tonexty', fillcolor='rgba(0,100,80,0.2)', line = list(color = 'transparent'), name = 'Tunnel de satisfaction 1 (bas)')
+  f <-f %>% add_trace( y = ~as.numeric(data$tunnel_upper2), mode = 'lines', line = list(color = 'transparent')
+                       , name = 'Tunnel de satisfaction 2 (haut)')
+  f <- f %>% add_trace(y = ~as.numeric(data$tunnel_lower2), mode = 'lines',
+                       fill = 'tonexty', fillcolor='rgba(105,91,138,0.2)', line = list(color = 'transparent'), name = 'Tunnel de satisfaction 2 (bas)')
+  f <-f %>% add_trace( y = ~as.numeric(data$tunnel_upper3), mode = 'lines', line = list(color = 'transparent')
+                       , name = 'Tunnel de satisfaction 3 (haut)')
+  f <- f %>% add_trace(y = ~as.numeric(data$tunnel_lower3), mode = 'lines',
+                       fill = 'tonexty', fillcolor='rgba(221,134,138,0.2)', line = list(color = 'transparent'), name = 'Tunnel de satisfaction 3 (bas)')
   f <- f %>% add_trace(y=~coefc1*data$S_PCHA1,mode="lines",name="Circulateur 1")
   f <- f %>% add_trace(y=~coefc2*data$S_PCHA2,mode="lines",name="Circulateur 2")
   f <- f %>% add_trace(y=~coefc3*data$S_PCHA3,mode="lines",name="Circulateur 3")
