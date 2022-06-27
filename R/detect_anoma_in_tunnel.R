@@ -101,7 +101,7 @@ detect_anoma_in_tunnel<- function(list.data,num_chambre,seuil_length=12,seuil_td
               tab_add <- data.frame(period$on_start,period$on_end,data$heure[period$on_start],data$heure[period$on_end],conclusion)
               colnames(tab_add)<-c("indice_s","indice_e","heure_start..1.","heure_end..1.","conclusion")
               #duree, pertinence
-              duree <- difftime(tab_add$heure_end..1.,tab_add$heure_start..1.,units = "mins")
+              duree <- round(as.numeric(difftime(tab_add$heure_end..1.,tab_add$heure_start..1.,units = "mins")),digits = 2)
               pertinence[duree<duree_pertinence] <- 0
               tab_add <- cbind(tab_add,duree,pertinence)
               #tab_fin
@@ -236,7 +236,7 @@ detect_anoma_in_tunnel_optipellet<- function(list.data,num_chambre,seuil_cut=21,
               tab_add <- data.frame(period$on_start,period$on_end,data$heure[period$on_start],data$heure[period$on_end],conclusion)
               colnames(tab_add)<-c("indice_s","indice_e","heure_start..1.","heure_end..1.","conclusion")
               #duree, pertinence
-              duree <- difftime(tab_add$heure_end..1.,tab_add$heure_start..1.,units = "mins")
+              duree <- round(as.numeric(difftime(tab_add$heure_end..1.,tab_add$heure_start..1.,units = "mins")),digits = 2)
               pertinence[duree<duree_pertinence] <- 0
               tab_add <- cbind(tab_add,duree,pertinence)
               #tab_fin
