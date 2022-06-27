@@ -1,4 +1,4 @@
-detect_anoma_in_tunnel<- function(list.data,num_chambre,seuil_length=12,seuil_tdep=0.003,seuil_cut=21,duree_pertinence=60,seuil_delete=5){
+detect_anoma_in_tunnel_sy<- function(list.data,num_chambre,seuil_length=12,seuil_tdep=0.003,seuil_cut=21,duree_pertinence=60,seuil_delete=5){
   require(lubridate)
 
   ## detecter les colonnes manquantes----
@@ -19,8 +19,15 @@ detect_anoma_in_tunnel<- function(list.data,num_chambre,seuil_length=12,seuil_td
       ## convert
       for(i in 1:length(list.data)){
         data <- list.data[[i]]
-        if(class(data$heure)[1]!="POSIXct"){
-          data$heure <- as.POSIXct(data$heure)}
+        if(class(data$heure)=="character"){
+          data$heure <- dmy_hms(paste(data$date[1],data$heure,sep = " "))
+          data$date <- dmy(data$date)}
+        else{
+          h <- paste(hour(data$heure),minute(data$heure),second(data$heure),sep = ":")
+          d <- as.character(data$date[1])
+          h2 <- paste(d,h)
+          data$heure <- ymd_hms(h2)
+        }
         list.data[[i]]<-data}
 
       ## Ecart------
@@ -133,7 +140,7 @@ detect_anoma_in_tunnel<- function(list.data,num_chambre,seuil_length=12,seuil_td
 }
 
 
-detect_anoma_in_tunnel_optipellet<- function(list.data,num_chambre,seuil_cut=21,duree_pertinence=60,seuil_delete=5){
+detect_anoma_in_tunnel_optipellet_sy<- function(list.data,num_chambre,seuil_cut=21,duree_pertinence=60,seuil_delete=5){
   require(lubridate)
 
   ## detecter les colonnes manquantes----
@@ -154,8 +161,15 @@ detect_anoma_in_tunnel_optipellet<- function(list.data,num_chambre,seuil_cut=21,
       ## convert
       for(i in 1:length(list.data)){
         data <- list.data[[i]]
-        if(class(data$heure)[1]!="POSIXct"){
-          data$heure <- as.POSIXct(data$heure)}
+        if(class(data$heure)=="character"){
+          data$heure <- dmy_hms(paste(data$date[1],data$heure,sep = " "))
+          data$date <- dmy(data$date)}
+        else{
+          h <- paste(hour(data$heure),minute(data$heure),second(data$heure),sep = ":")
+          d <- as.character(data$date[1])
+          h2 <- paste(d,h)
+          data$heure <- ymd_hms(h2)
+        }
         list.data[[i]]<-data}
 
       ## Ecart------

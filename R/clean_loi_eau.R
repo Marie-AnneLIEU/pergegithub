@@ -138,7 +138,7 @@ loi_eau_graphe <- function(list.data,fichier){
   f <- f %>% add_trace(y = ~data$C_LECHA_HYST, mode = "lines",
                        name = "Loi d'eau réelle")
   f <- f %>% add_trace(y = ~data$C_LECHA, mode = "lines",
-                       name = "Loi d'eau théorique")
+                       name = "Loi d'eau théorique (sans hystérésis)")
   f <- layout(f, title = paste0("Chaudière: ", data$chaudiere[1],
                                 " , Date: ", data$date[1]), xaxis = list(title = "Temps"),
               yaxis = list(title = "Température (°C)"))
